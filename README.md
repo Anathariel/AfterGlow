@@ -1,4 +1,6 @@
 # afterglow
+Solo project on the theme of Cocktails; using the cocktailDb API.
+Technology used : Vue.js; Vue Router; Node.js; SCSS / HTML / JS
 
 ## Project setup
 ```
