@@ -1,0 +1,38 @@
+//? --------------------  SCSS RESETS  -------------------- //
+@import './_variables.scss';
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  line-height: 1.6rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: inline-block;
+}
+
+a,
+p,
+ul,
+li,
+label {
+  text-decoration: none;
+  list-style: none;
+}
+
+.icons{
+  width: 15px;
+  height: 20px;
+}

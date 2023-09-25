@@ -1,0 +1,39 @@
+@import '@/assets/scss/_fonts.css';
+
+//& -------------------- SCSS VARIABLES -------------------- //
+//^ --------- COLORS --------- //
+
+$default-White: #F8F8F8;
+$default-Black: #232126;
+$default-Darkgrey: #7F838B;
+$default-grey: #D0D5DD;
+
+$primary-Background: #010626;
+$primary-DarkPurple: #53389E;
+$primary-NeonPurple: #512ECC;
+
+$accent-NeonPink: #EE46BC;
+$accent-NeonBlue: #2E90FA;
+$accent-Purpleish: #6172F3;
+
+$blue-LinearGradient : linear-gradient(270deg, #F8F8F8 0%, #90D1F3 22.94%, #2AABEE 61.18%, #229ED9 97.89%);
+
+//* --------- FONT --------- //
+
+$logoFont : 'Lovelo-Black';
+$lighterLogoFont: 'Lovelo-LineLight';
+$bolderLogoFont: 'Lovelo-LineBold';
+
+$titleFont : 'Croissant-One';
+
+$textFont : 'Quicksand-Regular';
+$lighterText : 'Quicksand-Light';
+$bolderText : 'Quicksand-Bold';
+$semiBoldText : 'Quicksand-SemiBold';
+$mediumText : 'Quicksand-Medium';
+
+//~ --------- STYLES --------- //
+
+$whiteText-NeonEffect : '0px 0px 10px #F8F8F8';
+$pinkText-NeonEffect : '0px 0px 10px #FD99EF';
+$blueText-NeonEffect : '0px 0px 10px #2E90FA'; 

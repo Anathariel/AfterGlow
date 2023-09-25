@@ -1,0 +1,54 @@
+/* Croissant One */
+
+@font-face {
+    font-family: 'Croissant-One';
+    src: url(../fonts/CroissantOne-Regular.ttf);
+}
+
+/* Quicksand */
+
+@font-face {
+    font-family: 'Quicksand-Regular';
+    src: url(../fonts/Quicksand-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'Quicksand-Light';
+    src: url(../fonts/Quicksand-Light.ttf);
+}
+
+@font-face {
+    font-family: 'Quicksand-Medium';
+    src: url(../fonts/Quicksand-Medium.ttf);
+}
+
+@font-face {
+    font-family: 'Quicksand-SemiBold';
+    src: url(../fonts/Quicksand-SemiBold.ttf);
+}
+
+@font-face {
+    font-family: 'Quicksand-Bold';
+    src: url(../fonts/Quicksand-Bold.ttf);
+}
+
+@font-face {
+    font-family: 'Quicksand-Variable';
+    src: url(../fonts/Quicksand-VariableFont_wght.ttf);
+}
+
+/* Lovelo Logo Font */
+@font-face {
+    font-family: 'Lovelo-Black';
+    src: url(../fonts/Lovelo-Black.ttf);
+}
+
+@font-face {
+    font-family: 'Lovelo-LineBold';
+    src: url(../fonts/Lovelo-LineBold.ttf);
+}
+
+@font-face {
+    font-family: 'Lovelo-LineLight';
+    src: url(../fonts/Lovelo-LineLight.ttf);
+}
