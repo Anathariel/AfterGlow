@@ -1,5 +1,5 @@
 //? --------------------  SCSS RESETS  -------------------- //
-@import './_variables.scss';
+@import "./_variables.scss";
 
 *,
 *::before,
@@ -10,17 +10,18 @@
 
 body {
   box-sizing: border-box;
-  scroll-behavior: smooth;
-  line-height: 1.6rem;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  scroll-behavior: smooth;
+  line-height: 1.6rem;
+  min-height: 100vh;
+  background-color: $primary-Background;
 }
 
 img {
-  max-width: 100%;
   display: inline-block;
+  max-width: 100%;
 }
 
 a,
@@ -30,9 +31,11 @@ li,
 label {
   text-decoration: none;
   list-style: none;
+  font-family: $lighterText;
+  text-shadow: $white-NeonEffect;
 }
 
-.icons{
+.icons {
   width: 15px;
   height: 20px;
 }

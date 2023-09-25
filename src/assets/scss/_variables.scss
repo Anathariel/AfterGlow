@@ -33,7 +33,12 @@ $semiBoldText : 'Quicksand-SemiBold';
 $mediumText : 'Quicksand-Medium';
 
 //~ --------- STYLES --------- //
+$whiteTitle-NeonEffect : 0px 0px 4px #f8f8f8;
+$white-NeonEffect : 0px 0px 10px #f8f8f8;
+$pink-NeonEffect : 0px 0px 10px #FD99EF;
+$blue-NeonEffect : 0px 0px 10px #2E90FA; 
 
-$whiteText-NeonEffect : '0px 0px 10px #F8F8F8';
-$pinkText-NeonEffect : '0px 0px 10px #FD99EF';
-$blueText-NeonEffect : '0px 0px 10px #2E90FA'; 
+$radius-15 : 15px;
+$radius-5 : 5px;
+
+$neon-bottom-border : 1px solid $accent-NeonPink;
