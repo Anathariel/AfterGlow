@@ -17,6 +17,14 @@ $accent-NeonBlue: #2E90FA;
 $accent-Purpleish: #6172F3;
 
 $blue-LinearGradient : linear-gradient(270deg, #F8F8F8 0%, #90D1F3 22.94%, #2AABEE 61.18%, #229ED9 97.89%);
+$neon-LinearGradient : linear-gradient(90deg, #2E90FA 0%, #6172F3 47.63%, #EE46BC 97.84%);
+$pink-LinearGradient : linear-gradient(
+    270deg,
+    #f8f8f8 0%,
+    #fbc4f3 34.16%,
+    #fd99ef 76.99%,
+    #ee46bc 97.89%
+  );
 
 //* --------- FONT --------- //
 
@@ -38,6 +46,7 @@ $white-NeonEffect : 0px 0px 10px #f8f8f8;
 $pink-NeonEffect : 0px 0px 10px #FD99EF;
 $blue-NeonEffect : 0px 0px 10px #2E90FA; 
 
+$radius-180: 180px;
 $radius-15 : 15px;
 $radius-5 : 5px;
 

@@ -32,10 +32,12 @@ label {
   text-decoration: none;
   list-style: none;
   font-family: $lighterText;
+  color: $default-White;
   text-shadow: $white-NeonEffect;
 }
 
 .icons {
-  width: 15px;
+  width: 20px;
   height: 20px;
+  filter: invert(99%) sepia(7%) saturate(368%) hue-rotate(271deg) brightness(117%) contrast(95%);
 }

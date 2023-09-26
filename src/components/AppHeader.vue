@@ -41,12 +41,17 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/_reset.scss";
 header {
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   height: 150px;
   border-bottom: $neon-bottom-border;
   border-radius: $radius-5;
+  background-color: $primary-Background;
 
   .header-logo {
     grid-column: 2;

@@ -174,6 +174,7 @@ export default {
 
   .close-icon:hover .cross {
     filter: drop-shadow($white-NeonEffect);
+    border-radius: $radius-180;
   }
 }
 </style>
