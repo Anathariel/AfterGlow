@@ -14,12 +14,7 @@
           alt="Neon bottles main header"
         />
       </figure>
-      <div class="searchbar-wrapper">
-        <div class="searchbar">
-          <img src="@/assets/media/icons/searchIcon.svg" alt="search icon" />
-          <input type="text" placeholder="Search . . ." />
-        </div>
-      </div>
+      <AppSearchbar @search="(...args) => searchCocktails(...args)" />
       <div class="stats">
         <figure>
           <img
@@ -49,7 +44,31 @@
           <h2>Popular drinks,</h2>
         </figcaption>
       </figure>
-      <div class="cocktail-container"></div>
+      <div class="cocktail-container">
+        <section class="search-results">
+          <figure class="title-section">
+            <h2>Cocktails</h2>
+          </figure>
+          <div class="cocktail-container">
+            <ul>
+              <li v-for="drink in drinksByName" :key="drink.idDrink">
+                {{ drink.strDrink }}
+              </li>
+            </ul>
+          </div>
+
+          <figure class="title-section">
+            <h2>Ingredients</h2>
+          </figure>
+          <div class="cocktail-container">
+            <ul>
+              <li v-for="drink in drinksByIngredient" :key="drink.idDrink">
+                {{ drink.strDrink }}
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
     </section>
     <section class="new-drinks">
       <figure class="title-section">
@@ -66,7 +85,50 @@
   </main>
 </template>
 
-<script></script>
+<script>
+import AppSearchbar from "@/components/AppSearchbar.vue";
+import { ref } from "vue";
+import {
+  searchCocktailsByName,
+  searchCocktailsByIngredient,
+} from "@/services/cocktailDb";
+
+export default {
+  components: {
+    AppSearchbar,
+  },
+  setup() {
+    const drinks = ref([]);
+    const drinksByName = ref([]);
+    const drinksByIngredient = ref([]);
+
+    const searchCocktails = async (searchTerm) => {
+      console.log("Search term used:", searchTerm);
+
+      // Run both search queries in parallel
+      const [dataByName, dataByIngredient] = await Promise.all([
+        searchCocktailsByName(searchTerm),
+        searchCocktailsByIngredient(searchTerm),
+      ]);
+
+      if (dataByName && dataByName.drinks) {
+        drinksByName.value = dataByName.drinks;
+      }
+
+      if (dataByIngredient && dataByIngredient.drinks) {
+        drinksByIngredient.value = dataByIngredient.drinks;
+      }
+    };
+
+    return {
+      drinks,
+      drinksByName,
+      drinksByIngredient,
+      searchCocktails,
+    };
+  },
+};
+</script>
 
 <style lang="scss">
 @import "@/assets/scss/_reset.scss";
@@ -135,39 +197,6 @@
     }
   }
 
-  .searchbar-wrapper {
-    display: inline-block;
-    width: 300px;
-    padding: 1px;
-    background: $neon-LinearGradient;
-    border-radius: $radius-180;
-
-    &:hover .searchbar {
-      box-shadow: $pink-NeonEffect;
-    }
-
-    & > .searchbar {
-      position: relative;
-      display: flex;
-      box-sizing: border-box;
-      justify-content: flex-start;
-      align-items: center;
-      width: 300px;
-      padding: 16px;
-      gap: 10px;
-      border-radius: $radius-180;
-      background-color: $primary-Background;
-
-      & > input[type="text"] {
-        color: $default-White;
-        font-family: $lighterText;
-        background-color: transparent;
-        border: none;
-        outline: transparent;
-      }
-    }
-  }
-
   .stats {
     display: flex;
     flex-direction: column;
@@ -204,6 +233,7 @@
 .popular-drinks {
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   height: 90vh;
