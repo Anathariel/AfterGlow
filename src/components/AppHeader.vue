@@ -5,10 +5,12 @@
     </figure>
 
     <figure class="header-logo">
-      <img
-        src="@/assets/media/logo/afterGlowFull.svg"
-        alt="AfterGlow Full Logo"
-      />
+      <router-link to="/">
+        <img
+          src="@/assets/media/logo/afterGlowFull.svg"
+          alt="AfterGlow Full Logo"
+        />
+      </router-link>
     </figure>
     <NavigationMenu :isOpen="isMenuOpen" @close-menu="closeMenu" />
   </header>
@@ -39,12 +41,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/scss/_reset.scss";
+@import "@/assets/scss/_variables.scss";
 header {
   z-index: 999;
   position: fixed;
   top: 0;
-  width: 100%;
+  width: 100vw;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;

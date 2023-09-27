@@ -25,6 +25,12 @@ $pink-LinearGradient : linear-gradient(
     #fd99ef 76.99%,
     #ee46bc 97.89%
   );
+  $card-gradient : linear-gradient(
+    90deg,
+    #ee46bc 0%,
+    #a176c8 50.22%,
+    #759beb 99.4%
+  );
 
 //* --------- FONT --------- //
 
@@ -47,6 +53,7 @@ $pink-NeonEffect : 0px 0px 10px #FD99EF;
 $blue-NeonEffect : 0px 0px 10px #2E90FA; 
 
 $radius-180: 180px;
+$radius-95: 95px;
 $radius-15 : 15px;
 $radius-5 : 5px;
 

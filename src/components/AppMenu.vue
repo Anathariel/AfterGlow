@@ -97,7 +97,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/_reset.scss";
+@import "@/assets/scss/_variables.scss";
 
 .nav-menu-overlay {
   position: fixed;

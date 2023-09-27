@@ -36,6 +36,13 @@ label {
   text-shadow: $white-NeonEffect;
 }
 
+button {
+  outline: transparent;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
 .icons {
   width: 20px;
   height: 20px;

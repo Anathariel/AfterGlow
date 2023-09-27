@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { debounce } from "lodash";
+
 export default {
   data() {
     return {
@@ -20,16 +22,16 @@ export default {
     };
   },
   methods: {
-    search() {
+    search: debounce(function () {
       console.log("Emitting search event with:", this.searchTerm);
       this.$emit("search", this.searchTerm);
-    },
+    }, 300),
   },
 };
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/_reset.scss";
+@import "@/assets/scss/_variables.scss";
 .searchbar-wrapper {
   display: inline-block;
   width: 300px;

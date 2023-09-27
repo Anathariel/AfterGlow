@@ -14,7 +14,7 @@
           alt="Neon bottles main header"
         />
       </figure>
-      <AppSearchbar @search="(...args) => searchCocktails(...args)" />
+      <AppSearchbar />
       <div class="stats">
         <figure>
           <img
@@ -41,103 +41,68 @@
           alt="Pink Cocktail Icon"
         />
         <figcaption>
-          <h2>Popular drinks,</h2>
+          <h2>our drinks,</h2>
         </figcaption>
       </figure>
-      <div class="cocktail-container">
-        <section class="search-results">
-          <figure class="title-section">
-            <h2>Cocktails</h2>
-          </figure>
-          <div class="cocktail-container">
-            <ul>
-              <li v-for="drink in drinksByName" :key="drink.idDrink">
-                {{ drink.strDrink }}
-              </li>
-            </ul>
-          </div>
-
-          <figure class="title-section">
-            <h2>Ingredients</h2>
-          </figure>
-          <div class="cocktail-container">
-            <ul>
-              <li v-for="drink in drinksByIngredient" :key="drink.idDrink">
-                {{ drink.strDrink }}
-              </li>
-            </ul>
-          </div>
-        </section>
+      <div class="slider-container">
+        <div ref="sliderRef" class="cocktail-container">
+          <CocktailCard
+            v-for="drink in popularDrinks"
+            :key="drink.idDrink"
+            :strDrink="drink.strDrink"
+            :strDrinkThumb="drink.strDrinkThumb"
+            :idDrink="drink.idDrink"
+          />
+        </div>
+        <div class="container-buttons">
+          <button
+            @click="goToPrevCard"
+            class="slider-button slider-button--left"
+          >
+            <img src="@/assets/media/icons/left-arrow.svg" alt="left arrow" />
+          </button>
+          <button
+            @click="goToNextCard"
+            class="slider-button slider-button--right"
+          >
+            <img src="@/assets/media/icons/right-arrow.svg" alt="right arrow" />
+          </button>
+        </div>
       </div>
-    </section>
-    <section class="new-drinks">
-      <figure class="title-section">
-        <img
-          src="@/assets/media/icons/cocktail-icon.svg"
-          alt="White Cocktail Icon"
-        />
-        <figcaption>
-          <h2>Latest drinks,</h2>
-        </figcaption>
-      </figure>
-      <div class="cocktail-container"></div>
     </section>
   </main>
 </template>
 
 <script>
 import AppSearchbar from "@/components/AppSearchbar.vue";
-import { ref } from "vue";
-import {
-  searchCocktailsByName,
-  searchCocktailsByIngredient,
-} from "@/services/cocktailDb";
+import CocktailCard from "@/components/CocktailCard.vue";
+import { getRandomCocktail } from "@/services/cocktailDb.js";
 
 export default {
   components: {
     AppSearchbar,
+    CocktailCard,
   },
-  setup() {
-    const drinks = ref([]);
-    const drinksByName = ref([]);
-    const drinksByIngredient = ref([]);
-
-    const searchCocktails = async (searchTerm) => {
-      console.log("Search term used:", searchTerm);
-
-      // Run both search queries in parallel
-      const [dataByName, dataByIngredient] = await Promise.all([
-        searchCocktailsByName(searchTerm),
-        searchCocktailsByIngredient(searchTerm),
-      ]);
-
-      if (dataByName && dataByName.drinks) {
-        drinksByName.value = dataByName.drinks;
-      }
-
-      if (dataByIngredient && dataByIngredient.drinks) {
-        drinksByIngredient.value = dataByIngredient.drinks;
-      }
-    };
-
+  data() {
     return {
-      drinks,
-      drinksByName,
-      drinksByIngredient,
-      searchCocktails,
+      popularDrinks: [],
     };
+  },
+  async created() {
+    const fetchPromises = Array.from({ length: 5 }, () => getRandomCocktail());
+    const dataObjects = await Promise.all(fetchPromises);
+    this.popularDrinks = [].concat(...dataObjects.map((obj) => obj.drinks));
   },
 };
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/_reset.scss";
+@import "@/assets/scss/_variables.scss";
 .hero-main {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 82vh;
 
   &:after {
     content: "";
@@ -236,7 +201,6 @@ export default {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  height: 90vh;
   &:after {
     content: "";
     position: absolute;
@@ -273,36 +237,38 @@ export default {
       text-transform: capitalize;
     }
   }
-}
 
-.new-drinks {
-  position: relative;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  height: 80vh;
-  & > .title-section {
+  & > .slider-container {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    gap: 15px;
-    & > img {
-      filter: invert(99%) sepia(74%) saturate(321%) hue-rotate(165deg)
-        brightness(109%) contrast(95%);
+    overflow: hidden;
+    max-width: 650px;
+    width: 100%;
+    & > .cocktail-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      max-width: 650px;
+      width: 100%;
+      height: auto;
+      overflow-x: auto;
+      position: relative;
+      &::before,
+      &::after {
+        content: "";
+        flex: 1;
+      }
     }
-    & > figcaption > h2 {
-      color: $default-White;
-      background: $blue-LinearGradient;
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      width: fit-content;
-      text-shadow: $blue-NeonEffect;
-      font-family: $titleFont;
-      font-size: 1.8rem;
-      line-height: 4rem;
-      text-transform: capitalize;
+    & > .container-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      & > button > img {
+        width: 80px;
+      }
     }
   }
 }
