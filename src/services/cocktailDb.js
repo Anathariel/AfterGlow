@@ -24,28 +24,27 @@ const fetchData = async (path) => {
 };
 
 const searchCocktailsByName = async (name) => {
-  const data = await fetchData(`/search.php?s=${name}`);
-  return data;
+  return await fetchData(`/search.php?s=${name}`);
 };
 
 const searchCocktailsByIngredient = async (ingredient) => {
-  const data = await fetchData(`/filter.php?i=${ingredient}`);
-  return data;
+  return await fetchData(`/filter.php?i=${ingredient}`);
 };
 
 const searchCocktailsByCategory = async (categories) => {
-  const data = await fetchData(`/filter.php?c=${categories}`);
-  return data;
+  return await fetchData(`/filter.php?c=${categories}`);
 };
 
 const searchCocktailsByAlcoholic = async () => {
-  const data = await fetchData(`/filter.php?a=Alcoholic`);
-  return data;
+  return await fetchData(`/filter.php?a=Alcoholic`);
 };
 
 const searchCocktailsByNonAlcoholic = async () => {
-  const data = await fetchData(`/filter.php?a=Non_Alcoholic`);
-  return data;
+  return await fetchData(`/filter.php?a=Non_Alcoholic`);
+};
+
+const getCategories = async () => {
+  return await fetchData(`/list.php?c=list`);
 };
 
 const singleCocktailView = async (id) => {
@@ -66,4 +65,5 @@ export {
   searchCocktailsByNonAlcoholic,
   singleCocktailView,
   getRandomCocktail,
+  getCategories,
 };

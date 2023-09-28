@@ -1,84 +1,105 @@
 <template>
-  <AppSearchbar @search="(...args) => searchCocktails(...args)" />
-  <h2>Cocktails</h2>
-  <CocktailCard
-    v-for="drink in drinksByName"
-    :key="drink.idDrink"
-    :strDrink="drink.strDrink"
-    :strDrinkThumb="drink.strDrinkThumb"
-    :idDrink="drink.idDrink"
-  />
+  <div>
+    <!-- Search Bar -->
+    <AppSearchbar @search="searchCocktails" />
 
-  <h2>Ingredients</h2>
-  <CocktailCard
-    v-for="drink in drinksByIngredient"
-    :key="drink.idDrink"
-    :strDrink="drink.strDrink"
-    :strDrinkThumb="drink.strDrinkThumb"
-    :idDrink="drink.idDrink"
-  />
+    <!-- Category Links -->
+    <div>
+      <h2>Categories</h2>
+      <router-link
+        v-for="category in categories"
+        :key="category.strCategory"
+        :to="{ name: 'CatalogueView', query: { filter: category.strCategory } }"
+      >
+        {{ category.strCategory }}
+      </router-link>
+    </div>
 
-  <h2>Category</h2>
-
-  <CocktailCard
-    v-for="drink in drinksByCategory"
-    :key="drink.idDrink"
-    :strDrink="drink.strDrink"
-    :strDrinkThumb="drink.strDrinkThumb"
-    :idDrink="drink.idDrink"
-  />
+    <!-- Display Cocktails -->
+    <div v-if="loading">Loading...</div>
+    <div v-else>
+      <CocktailCard
+        v-for="cocktail in unifiedDrinks"
+        :key="cocktail.idDrink"
+        :strDrink="cocktail.strDrink"
+        :strDrinkThumb="cocktail.strDrinkThumb"
+        :idDrink="cocktail.idDrink"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
-import AppSearchbar from "@/components/AppSearchbar.vue";
-import CocktailCard from "@/components/CocktailCard.vue";
-import { ref } from "vue";
 import {
   searchCocktailsByName,
   searchCocktailsByIngredient,
   searchCocktailsByCategory,
+  searchCocktailsByAlcoholic,
+  searchCocktailsByNonAlcoholic,
+  getCategories,
 } from "@/services/cocktailDb";
+import CocktailCard from "@/components/CocktailCard.vue";
+import AppSearchbar from "@/components/AppSearchbar.vue";
 
 export default {
   components: {
-    AppSearchbar,
     CocktailCard,
+    AppSearchbar,
   },
-  setup() {
-    const drinks = ref([]);
-    const drinksByName = ref([]);
-    const drinksByIngredient = ref([]);
-    const drinksByCategory = ref([]);
-
-    const searchCocktails = async (searchTerm) => {
-      console.log("Search term used:", searchTerm);
-
+  data() {
+    return {
+      unifiedDrinks: [],
+      categories: [],
+      loading: false,
+    };
+  },
+  methods: {
+    async searchCocktails(searchTerm) {
+      this.loading = true;
       const [dataByName, dataByIngredient, dataByCategory] = await Promise.all([
         searchCocktailsByName(searchTerm),
         searchCocktailsByIngredient(searchTerm),
         searchCocktailsByCategory(searchTerm),
       ]);
 
-      if (dataByName && dataByName.drinks) {
-        drinksByName.value = dataByName.drinks;
+      this.unifiedDrinks = [
+        ...(dataByName?.drinks || []),
+        ...(dataByIngredient?.drinks || []),
+        ...(dataByCategory?.drinks || []),
+      ];
+      this.loading = false;
+    },
+    async fetchCocktailsByFilter() {
+      this.loading = true;
+      const filter = this.$route.query.filter;
+      let data;
+
+      switch (filter) {
+        case "alcoholic":
+          data = await searchCocktailsByAlcoholic();
+          break;
+        case "non-alcoholic":
+          data = await searchCocktailsByNonAlcoholic();
+          break;
+        default:
+          data = await searchCocktailsByCategory(filter);
+          break;
       }
 
-      if (dataByIngredient && dataByIngredient.drinks) {
-        drinksByIngredient.value = dataByIngredient.drinks;
-      }
-
-      if (dataByCategory && dataByCategory.drinks) {
-        drinksByCategory.value = dataByCategory.drinks;
-      }
-    };
-
-    return {
-      drinks,
-      drinksByName,
-      drinksByIngredient,
-      drinksByCategory,
-      searchCocktails,
-    };
+      this.unifiedDrinks = data?.drinks || [];
+      this.loading = false;
+    },
+    async fetchCategories() {
+      const data = await getCategories();
+      this.categories = data?.drinks || [];
+    },
+  },
+  watch: {
+    "$route.query.filter": "fetchCocktailsByFilter",
+  },
+  mounted() {
+    this.fetchCocktailsByFilter();
+    this.fetchCategories();
   },
 };
 </script>

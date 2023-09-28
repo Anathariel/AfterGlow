@@ -9,10 +9,28 @@
       <h2>Find your cocktail</h2>
     </div>
     <nav>
-      <li><a href="">With Alcohol</a></li>
-      <li><a href="">Without Alcohol</a></li>
-      <li><a href="">Our Categories</a></li>
-      <li><a href="">By Ingredients</a></li>
+      <li @click="closeMenu">
+        <router-link
+          :to="{ name: 'CatalogueView', query: { filter: 'alcoholic' } }"
+          >With Alcohol</router-link
+        >
+      </li>
+      <li @click="closeMenu">
+        <router-link
+          :to="{ name: 'CatalogueView', query: { filter: 'non-alcoholic' } }"
+          >Without Alcohol</router-link
+        >
+      </li>
+      <li @click="closeMenu">
+        <router-link :to="{ name: 'CatalogueView' }"
+          >Our Categories</router-link
+        >
+      </li>
+      <li @click="closeMenu">
+        <router-link :to="{ name: 'CatalogueView' }"
+          >By Ingredients</router-link
+        >
+      </li>
     </nav>
     <figure @click="closeMenu" class="close-icon">
       <img src="@/assets/media/icons/closeIcon.svg" />
