@@ -93,6 +93,7 @@ export default {
       & > h2 {
         max-width: 200px;
         font-family: $titleFont;
+        text-shadow: $whiteTitle-NeonEffect;
         font-size: 1.5rem;
         text-transform: capitalize;
         display: -webkit-box;

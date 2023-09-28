@@ -1,23 +1,27 @@
 <template>
-  <div>
-    <!-- Search Bar -->
-    <AppSearchbar @search="searchCocktails" />
-
-    <!-- Category Links -->
-    <div>
+  <section>
+    <div class="option-search">
+      <!-- Category Links -->
       <h2>Categories</h2>
-      <router-link
-        v-for="category in categories"
-        :key="category.strCategory"
-        :to="{ name: 'CatalogueView', query: { filter: category.strCategory } }"
-      >
-        {{ category.strCategory }}
-      </router-link>
+      <div class="cocktail-category-container">
+        <router-link
+          v-for="category in categories"
+          :key="category.strCategory"
+          :to="{
+            name: 'CatalogueView',
+            query: { filter: category.strCategory },
+          }"
+        >
+          {{ category.strCategory }}
+        </router-link>
+      </div>
+
+      <!-- Search Bar -->
+      <AppSearchbar @search="searchCocktails" />
     </div>
 
-    <!-- Display Cocktails -->
-    <div v-if="loading">Loading...</div>
-    <div v-else>
+    <div class="cocktails-container">
+      <!-- Display Cocktails -->
       <CocktailCard
         v-for="cocktail in unifiedDrinks"
         :key="cocktail.idDrink"
@@ -26,7 +30,7 @@
         :idDrink="cocktail.idDrink"
       />
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -103,3 +107,54 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+section {
+  margin: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 50px;
+}
+@import "@/assets/scss/_variables.scss";
+div.option-search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  padding: 25px 50px;
+  border: 1px solid $accent-Purpleish;
+  box-shadow: $purpleish-NeonEffect;
+  border-radius: $radius-15;
+  & > div.cocktail-category-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-x: scroll;
+    gap: 20px;
+    width: 250px;
+    padding: 15px;
+    border: 1px solid $accent-Purpleish;
+    box-shadow: $purpleish-NeonEffect;
+    border-radius: $radius-15;
+    & > a {
+      white-space: nowrap;
+      font-size: 1.2rem;
+      line-height: 1.7rem;
+      color: $accent-NeonPink;
+      text-shadow: $pink-NeonEffect;
+      &:hover {
+        color: $accent-Purpleish;
+        text-shadow: $purpleish-NeonEffect;
+      }
+    }
+  }
+}
+div.cocktails-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+</style>
