@@ -74,11 +74,10 @@ export default {
   position: fixed;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   top: 0;
   left: 0;
-  gap: 25px;
   width: 320px;
   height: 100vh;
   text-align: center;
@@ -89,7 +88,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 150px;
+    flex: 0 0 150px;
     width: 275px;
     border-radius: $radius-5;
     color: $default-White;
@@ -109,6 +108,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex: 1;
     padding: 20px 5px;
     gap: 65px;
 
@@ -140,10 +140,13 @@ export default {
     }
   }
 
-  & > figure > img:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-    filter: drop-shadow(0 0 3.5px $default-White);
+  & > figure {
+    flex: 0;
+    & > img:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 3.5px $default-White);
+    }
   }
 }
 </style>

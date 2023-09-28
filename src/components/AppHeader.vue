@@ -58,6 +58,7 @@ header {
 
   .header-logo {
     width: 150px;
+    filter: drop-shadow(0 0 3.5px $accent-NeonPink);
   }
 
   .burger-menu {
