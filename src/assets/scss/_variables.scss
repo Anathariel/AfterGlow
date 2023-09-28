@@ -1,60 +1,73 @@
-@import '@/assets/scss/_fonts.css';
+@import "@/assets/scss/_fonts.css";
 
 //& -------------------- SCSS VARIABLES -------------------- //
 //^ --------- COLORS --------- //
 
-$default-White: #F8F8F8;
+$default-White: #f8f8f8;
 $default-Black: #232126;
-$default-Darkgrey: #7F838B;
-$default-grey: #D0D5DD;
+$default-Darkgrey: #7f838b;
+$default-grey: #d0d5dd;
 
 $primary-Background: #010626;
-$primary-DarkPurple: #53389E;
-$primary-NeonPurple: #512ECC;
+$primary-DarkPurple: #53389e;
+$primary-NeonPurple: #512ecc;
 
-$accent-NeonPink: #EE46BC;
-$accent-NeonBlue: #2E90FA;
-$accent-Purpleish: #6172F3;
+$accent-NeonPink: #ee46bc;
+$accent-NeonBlue: #2e90fa;
+$accent-Purpleish: #6172f3;
 
-$blue-LinearGradient : linear-gradient(270deg, #F8F8F8 0%, #90D1F3 22.94%, #2AABEE 61.18%, #229ED9 97.89%);
-$neon-LinearGradient : linear-gradient(90deg, #2E90FA 0%, #6172F3 47.63%, #EE46BC 97.84%);
-$pink-LinearGradient : linear-gradient(
-    270deg,
-    #f8f8f8 0%,
-    #fbc4f3 34.16%,
-    #fd99ef 76.99%,
-    #ee46bc 97.89%
-  );
-  $card-gradient : linear-gradient(
-    90deg,
-    #ee46bc 0%,
-    #a176c8 50.22%,
-    #759beb 99.4%
-  );
+$blue-LinearGradient: linear-gradient(
+  270deg,
+  #f8f8f8 0%,
+  #90d1f3 22.94%,
+  #2aabee 61.18%,
+  #229ed9 97.89%
+);
+$neon-LinearGradient: linear-gradient(
+  90deg,
+  #2e90fa 0%,
+  #6172f3 47.63%,
+  #ee46bc 97.84%
+);
+$pink-LinearGradient: linear-gradient(
+  270deg,
+  #f8f8f8 0%,
+  #fbc4f3 34.16%,
+  #fd99ef 76.99%,
+  #ee46bc 97.89%
+);
+$card-gradient: linear-gradient(
+  90deg,
+  #ee46bc 0%,
+  #a176c8 50.22%,
+  #759beb 99.4%
+);
 
 //* --------- FONT --------- //
 
-$logoFont : 'Lovelo-Black';
-$lighterLogoFont: 'Lovelo-LineLight';
-$bolderLogoFont: 'Lovelo-LineBold';
+$logoFont: "Lovelo-Black";
+$lighterLogoFont: "Lovelo-LineLight";
+$bolderLogoFont: "Lovelo-LineBold";
 
-$titleFont : 'Croissant-One';
+$titleFont: "Croissant-One";
 
-$textFont : 'Quicksand-Regular';
-$lighterText : 'Quicksand-Light';
-$bolderText : 'Quicksand-Bold';
-$semiBoldText : 'Quicksand-SemiBold';
-$mediumText : 'Quicksand-Medium';
+$textFont: "Quicksand-Regular";
+$lighterText: "Quicksand-Light";
+$bolderText: "Quicksand-Bold";
+$semiBoldText: "Quicksand-SemiBold";
+$mediumText: "Quicksand-Medium";
 
 //~ --------- STYLES --------- //
-$whiteTitle-NeonEffect : 0px 0px 4px #f8f8f8;
-$white-NeonEffect : 0px 0px 10px #f8f8f8;
-$pink-NeonEffect : 0px 0px 10px #FD99EF;
-$blue-NeonEffect : 0px 0px 10px #2E90FA; 
+$whiteTitle-NeonEffect: 0px 0px 4px #f8f8f8;
+$white-NeonEffect: 0px 0px 10px #f8f8f8;
+$pink-NeonEffect: 0px 0px 10px #fd99ef;
+$blue-NeonEffect: 0px 0px 10px $accent-NeonBlue;
+$purple-NeonEffect: 0px 0px 10px 0px #9747ff;
+$purpleish-NeonEffect: 0px 0px 10px 0px $accent-Purpleish;
 
 $radius-180: 180px;
 $radius-95: 95px;
-$radius-15 : 15px;
-$radius-5 : 5px;
+$radius-15: 15px;
+$radius-5: 5px;
 
-$neon-bottom-border : 1px solid $accent-NeonPink;
+$neon-bottom-border: 1px solid $accent-NeonPink;

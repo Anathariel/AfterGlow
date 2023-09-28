@@ -126,7 +126,7 @@ export default {
     border-bottom: 1px dotted $accent-NeonPink;
 
     & > h2 {
-      font-size: 2.1875rem;
+      font-size: 2rem;
       line-height: 2.8125rem;
       text-transform: capitalize;
     }
@@ -137,7 +137,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 22px 8px;
+    padding: 20px 5px;
     gap: 65px;
 
     & > li {
@@ -145,8 +145,8 @@ export default {
       justify-content: center;
       align-items: center;
       width: 100%;
-      height: 45px;
-      padding: 15px;
+      height: 40px;
+      padding: 10px;
       border-radius: $radius-5;
       border-bottom: $neon-bottom-border;
       & > a {
@@ -156,7 +156,7 @@ export default {
         width: 100%;
         height: 100%;
         color: $default-White;
-        font-size: 1.5625rem;
+        font-size: 1.5rem;
         line-height: 1.5rem;
         text-transform: capitalize;
       }

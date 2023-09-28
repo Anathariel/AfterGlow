@@ -30,7 +30,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "@/assets/scss/_variables.scss";
 .cocktail-wrapper {
   display: flex;

@@ -36,6 +36,12 @@ label {
   text-shadow: $white-NeonEffect;
 }
 
+h1,h2,h3,h4,h5,h6 {
+  color: $default-White;
+  font-family: $titleFont;
+  line-height: 1.75rem;
+}
+
 button {
   outline: transparent;
   border: none;

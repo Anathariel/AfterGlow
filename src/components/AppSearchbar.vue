@@ -7,6 +7,8 @@
         v-model="searchTerm"
         @input="search"
         placeholder="Search . . ."
+        name="cocktail-search"
+        id="cocktail-searchbar"
       />
     </div>
   </div>

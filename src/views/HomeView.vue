@@ -150,7 +150,7 @@ export default {
     & > p {
       font-size: 0.9rem;
       text-transform: capitalize;
-      font-family: $semiBoldText;
+      font-family: $mediumText;
     }
   }
 
@@ -267,7 +267,7 @@ export default {
       align-items: center;
       width: 100%;
       & > button > img {
-        width: 80px;
+        width: 50px;
       }
     }
   }
