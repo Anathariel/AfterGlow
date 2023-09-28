@@ -1,6 +1,6 @@
 <template>
   <header>
-    <figure class="burger-menu" @click="toggleMenu">
+    <figure class="burger-menu" @click.stop="toggleMenu">
       <img src="@/assets/media/icons/burger-icon.svg" alt="Burger Menu Icon" />
     </figure>
 
@@ -12,6 +12,7 @@
         />
       </router-link>
     </figure>
+    <div class="empty-space"></div>
     <NavigationMenu :isOpen="isMenuOpen" @close-menu="closeMenu" />
   </header>
 </template>
@@ -47,8 +48,8 @@ header {
   position: fixed;
   top: 0;
   width: 100vw;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   height: 150px;
   border-bottom: $neon-bottom-border;
@@ -56,17 +57,23 @@ header {
   background-color: $primary-Background;
 
   .header-logo {
-    grid-column: 2;
-    justify-self: center;
     width: 150px;
   }
 
   .burger-menu {
-    grid-column: 1;
+    flex: 1;
+    margin-left: 25px;
 
     & > img {
       width: 50px;
     }
+    &:hover {
+      cursor: pointer;
+      filter: drop-shadow(0 0 3.5px $accent-NeonPink);
+    }
+  }
+  .empty-space {
+    flex: 1;
   }
 }
 </style>
