@@ -39,6 +39,10 @@ const searchCocktailsByAlcoholic = async () => {
   return await fetchData(`/filter.php?a=Alcoholic`);
 };
 
+const searchCocktailsByOptionalAlcohol = async () => {
+  return await fetchData(`/filter.php?a=Optional_Alcohol`);
+};
+
 const searchCocktailsByNonAlcoholic = async () => {
   return await fetchData(`/filter.php?a=Non_Alcoholic`);
 };
@@ -63,6 +67,7 @@ export {
   searchCocktailsByCategory,
   searchCocktailsByAlcoholic,
   searchCocktailsByNonAlcoholic,
+  searchCocktailsByOptionalAlcohol,
   singleCocktailView,
   getRandomCocktail,
   getCategories,

@@ -22,8 +22,9 @@
         >
       </li>
       <li @click="closeMenu">
-        <router-link :to="{ name: 'CatalogueView' }"
-          >Our Categories</router-link
+        <router-link
+          :to="{ name: 'CatalogueView', query: { filter: 'optional-alcohol' } }"
+          >Optional Alcohol</router-link
         >
       </li>
       <li @click="closeMenu">
@@ -89,7 +90,7 @@ export default {
   position: fixed;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   top: 0;
   left: 0;

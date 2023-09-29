@@ -23,7 +23,7 @@
       </p>
     </div>
 
-    <div v-if="cocktails.length" class="cocktails-container">
+    <div v-if="cocktails.length" class="search-container">
       <CocktailCard
         v-for="cocktail in cocktails"
         :key="cocktail.idDrink"
@@ -43,6 +43,9 @@ import {
   searchCocktailsByName,
   searchCocktailsByIngredient,
   searchCocktailsByCategory,
+  searchCocktailsByAlcoholic,
+  searchCocktailsByNonAlcoholic,
+  searchCocktailsByOptionalAlcohol,
   getCategories,
 } from "@/services/cocktailDb";
 import CocktailCard from "@/components/CocktailCard.vue";
@@ -64,7 +67,21 @@ export default {
   methods: {
     async performSearch() {
       if (this.searchTerm) {
-        await this.searchCocktails(this.searchTerm);
+        if (this.searchTerm.toLowerCase() === "alcoholic") {
+          const data = await searchCocktailsByAlcoholic();
+          this.cocktails = data?.drinks || [];
+        } else if (this.searchTerm.toLowerCase() === "non-alcoholic") {
+          const data = await searchCocktailsByNonAlcoholic();
+          this.cocktails = data?.drinks || [];
+        } else if (this.searchTerm.toLowerCase() === "optional-alcohol") {
+          const data = await searchCocktailsByOptionalAlcohol();
+          this.cocktails = data?.drinks || [];
+        } else {
+          await this.searchCocktails(this.searchTerm);
+        }
+      } else {
+        // Placeholder for default cocktails or any other default action.
+        // await this.searchCocktails('some default term');
       }
     },
     async searchCocktails(searchTerm) {
@@ -144,7 +161,7 @@ div.option-search {
     }
   }
 }
-div.cocktails-container {
+div.search-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
