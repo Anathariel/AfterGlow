@@ -26,7 +26,6 @@ export default {
   },
   methods: {
     search: debounce(function () {
-      console.log("Emitting search event with:", this.searchTerm);
       this.$emit("search", this.searchTerm);
     }, 500),
     onEnterPressed() {

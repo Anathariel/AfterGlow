@@ -51,6 +51,10 @@ const getCategories = async () => {
   return await fetchData(`/list.php?c=list`);
 };
 
+const getIngredientsList = async () => {
+  return await fetchData(`/list.php?i=list`);
+};
+
 const singleCocktailView = async (id) => {
   const data = await fetchData(`/lookup.php?i=${id}`);
   return data;
@@ -71,4 +75,5 @@ export {
   singleCocktailView,
   getRandomCocktail,
   getCategories,
+  getIngredientsList,
 };

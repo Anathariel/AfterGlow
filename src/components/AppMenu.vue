@@ -28,7 +28,11 @@
         >
       </li>
       <li @click="closeMenu">
-        <router-link :to="{ name: 'CatalogueView' }">Our Catalogue</router-link>
+        <router-link
+          :to="{ name: 'CatalogueView', query: { filter: 'ingredient' } }"
+        >
+          By Ingredients
+        </router-link>
       </li>
     </nav>
     <figure @click="closeMenu" class="close-icon">
