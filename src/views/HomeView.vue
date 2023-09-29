@@ -14,7 +14,7 @@
           alt="Neon bottles main header"
         />
       </figure>
-      <AppSearchbar />
+      <AppSearchbar @search="goToCatalogue" />
       <div class="stats">
         <figure>
           <img
@@ -92,6 +92,14 @@ export default {
     const fetchPromises = Array.from({ length: 5 }, () => getRandomCocktail());
     const dataObjects = await Promise.all(fetchPromises);
     this.popularDrinks = [].concat(...dataObjects.map((obj) => obj.drinks));
+  },
+  methods: {
+    goToCatalogue(searchTerm) {
+      this.$router.push({
+        name: "CatalogueView",
+        query: { filter: searchTerm },
+      });
+    },
   },
 };
 </script>

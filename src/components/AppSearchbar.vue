@@ -9,6 +9,7 @@
         placeholder="Search . . ."
         name="cocktail-search"
         id="cocktail-searchbar"
+        @keyup.enter="onEnterPressed"
       />
     </div>
   </div>
@@ -27,7 +28,10 @@ export default {
     search: debounce(function () {
       console.log("Emitting search event with:", this.searchTerm);
       this.$emit("search", this.searchTerm);
-    }, 300),
+    }, 500),
+    onEnterPressed() {
+      this.$emit("search", this.searchTerm);
+    },
   },
 };
 </script>

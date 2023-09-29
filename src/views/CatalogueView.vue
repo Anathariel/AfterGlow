@@ -18,17 +18,22 @@
 
       <!-- Search Bar -->
       <AppSearchbar @search="searchCocktails" />
+      <p class="searchbar-info">
+        Type here to search by the name of a cocktail or by ingredient!
+      </p>
     </div>
 
-    <div class="cocktails-container">
-      <!-- Display Cocktails -->
+    <div v-if="cocktails.length" class="cocktails-container">
       <CocktailCard
-        v-for="cocktail in unifiedDrinks"
+        v-for="cocktail in cocktails"
         :key="cocktail.idDrink"
         :strDrink="cocktail.strDrink"
         :strDrinkThumb="cocktail.strDrinkThumb"
         :idDrink="cocktail.idDrink"
       />
+    </div>
+    <div v-else>
+      <p>Sorry, we couldn't find anything.</p>
     </div>
   </section>
 </template>
@@ -38,8 +43,6 @@ import {
   searchCocktailsByName,
   searchCocktailsByIngredient,
   searchCocktailsByCategory,
-  searchCocktailsByAlcoholic,
-  searchCocktailsByNonAlcoholic,
   getCategories,
 } from "@/services/cocktailDb";
 import CocktailCard from "@/components/CocktailCard.vue";
@@ -52,12 +55,18 @@ export default {
   },
   data() {
     return {
-      unifiedDrinks: [],
+      cocktails: [],
       categories: [],
       loading: false,
+      searchTerm: "",
     };
   },
   methods: {
+    async performSearch() {
+      if (this.searchTerm) {
+        await this.searchCocktails(this.searchTerm);
+      }
+    },
     async searchCocktails(searchTerm) {
       this.loading = true;
       const [dataByName, dataByIngredient, dataByCategory] = await Promise.all([
@@ -66,31 +75,11 @@ export default {
         searchCocktailsByCategory(searchTerm),
       ]);
 
-      this.unifiedDrinks = [
+      this.cocktails = [
         ...(dataByName?.drinks || []),
         ...(dataByIngredient?.drinks || []),
         ...(dataByCategory?.drinks || []),
       ];
-      this.loading = false;
-    },
-    async fetchCocktailsByFilter() {
-      this.loading = true;
-      const filter = this.$route.query.filter;
-      let data;
-
-      switch (filter) {
-        case "alcoholic":
-          data = await searchCocktailsByAlcoholic();
-          break;
-        case "non-alcoholic":
-          data = await searchCocktailsByNonAlcoholic();
-          break;
-        default:
-          data = await searchCocktailsByCategory(filter);
-          break;
-      }
-
-      this.unifiedDrinks = data?.drinks || [];
       this.loading = false;
     },
     async fetchCategories() {
@@ -99,10 +88,14 @@ export default {
     },
   },
   watch: {
-    "$route.query.filter": "fetchCocktailsByFilter",
+    "$route.query.filter": function (newFilter) {
+      this.searchTerm = newFilter;
+      this.performSearch();
+    },
   },
   mounted() {
-    this.fetchCocktailsByFilter();
+    this.searchTerm = this.$route.query.filter || "";
+    this.performSearch();
     this.fetchCategories();
   },
 };
@@ -110,7 +103,7 @@ export default {
 
 <style scoped lang="scss">
 section {
-  margin: 25px;
+  margin: 25px 0;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -156,5 +149,12 @@ div.cocktails-container {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+}
+
+p.searchbar-info {
+  font-size: 0.75rem;
+  line-height: 1.1rem;
+  width: 300px;
+  text-align: center;
 }
 </style>

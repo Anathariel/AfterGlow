@@ -11,7 +11,7 @@
     <nav>
       <li @click="closeMenu">
         <router-link
-          :to="{ name: 'CatalogueView', query: { filter: 'alcoholic' } }"
+          :to="{ name: 'CatalogueView', query: { filter: 'Alcoholic' } }"
           >With Alcohol</router-link
         >
       </li>
@@ -27,9 +27,7 @@
         >
       </li>
       <li @click="closeMenu">
-        <router-link :to="{ name: 'CatalogueView' }"
-          >By Ingredients</router-link
-        >
+        <router-link :to="{ name: 'CatalogueView' }">Our Catalogue</router-link>
       </li>
     </nav>
     <figure @click="closeMenu" class="close-icon">
@@ -54,7 +52,6 @@ export default {
       this.$emit("close-menu");
     },
     handleOverlayClick(event) {
-      // Prevent this event from propagating to document click handler
       event.stopPropagation();
     },
     handleClickOutside() {
