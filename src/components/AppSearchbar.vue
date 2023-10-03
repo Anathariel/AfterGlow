@@ -39,7 +39,8 @@ export default {
 @import "@/assets/scss/_variables.scss";
 .searchbar-wrapper {
   display: inline-block;
-  width: 250px;
+  min-width: 250px;
+  width: 80%;
   padding: 1px;
   background: $neon-LinearGradient;
   border-radius: $radius-180;
@@ -54,7 +55,8 @@ export default {
     box-sizing: border-box;
     justify-content: flex-start;
     align-items: center;
-    width: 250px;
+    min-width: 250px;
+    width: 100%;
     padding: 16px;
     gap: 10px;
     border-radius: $radius-180;

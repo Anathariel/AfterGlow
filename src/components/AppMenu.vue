@@ -168,6 +168,5 @@ export default {
       filter: drop-shadow(0 0 3.5px $default-White);
     }
   }
-  // @media screen and (min-width: 1020px){}
 }
 </style>

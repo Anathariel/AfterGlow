@@ -172,6 +172,7 @@ section {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 90%;
     gap: 20px;
     padding: 20px;
     border: 1px solid $accent-Purpleish;
@@ -226,6 +227,13 @@ section {
       }
     }
   }
-  // @media screen and (min-width: 1020px){}
+  @media screen and (min-width: 1020px) {
+    & > div.option-search {
+      width: 50%;
+      & > div.cocktail-category-container {
+        width: 80%;
+      }
+    }
+  }
 }
 </style>
