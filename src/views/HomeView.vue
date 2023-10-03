@@ -1,35 +1,43 @@
 <template>
   <section class="hero-main">
-    <div class="hero-CTA">
-      <h1 data-text="Welcome,">Welcome,</h1>
-      <p>
-        Looking for the ultimate buzz? Unveil the glowing recipes that match
-        your vibe by searching below.
-      </p>
-    </div>
-    <figure class="main-figure">
-      <img
-        src="@/assets/media/cropped-hero-main.png"
-        alt="Neon bottles main header"
-      />
-    </figure>
-    <AppSearchbar @search="goToCatalogue" />
-    <div class="stats">
-      <figure>
+    <div class="content-size">
+      <div class="left-container">
+        <div class="hero-CTA">
+          <h1 data-text="Welcome,">Welcome,</h1>
+          <p>
+            Looking for the ultimate buzz? Unveil the glowing recipes that match
+            your vibe by searching below.
+          </p>
+        </div>
+        <div class="stats-nd-search">
+          <AppSearchbar @search="goToCatalogue" />
+          <div class="stats">
+            <figure>
+              <img
+                src="@/assets/media/icons/cocktail-icon.svg"
+                alt=""
+                class="icons"
+              />
+              <figcaption>
+                <p>Total Drinks: <span class="span-cocktail">636</span></p>
+              </figcaption>
+            </figure>
+            <figure>
+              <img src="@/assets/media/icons/cart.svg" alt="" class="icons" />
+              <figcaption>
+                <p>
+                  Total Ingredients: <span class="span-ingredients">489</span>
+                </p>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <figure class="main-figure">
         <img
-          src="@/assets/media/icons/cocktail-icon.svg"
-          alt=""
-          class="icons"
+          src="@/assets/media/cropped-hero-main.png"
+          alt="Neon bottles main header"
         />
-        <figcaption>
-          <p>Total Drinks: <span class="span-cocktail">636</span></p>
-        </figcaption>
-      </figure>
-      <figure>
-        <img src="@/assets/media/icons/cart.svg" alt="" class="icons" />
-        <figcaption>
-          <p>Total Ingredients: <span class="span-ingredients">489</span></p>
-        </figcaption>
       </figure>
     </div>
   </section>
@@ -103,9 +111,6 @@ export default {
 @import "@/assets/scss/_variables.scss";
 .hero-main {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 
   &:after {
     content: "";
@@ -119,83 +124,117 @@ export default {
     opacity: 0.3;
     z-index: -1;
   }
-
-  .hero-CTA {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    max-width: 650px;
-    padding: 30px 15px;
-    gap: 15px;
-
-    & > h1 {
-      position: relative;
-      font-size: 2.8rem;
-      line-height: 4rem;
-      font-family: $titleFont;
-      &::before {
-        content: attr(data-text);
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: -1;
-        color: $accent-NeonBlue;
-        text-shadow: $white-NeonEffect;
-      }
-      color: transparent;
-      background: $blue-LinearGradient;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    & > p {
-      font-size: 0.9rem;
-      text-transform: capitalize;
-      font-family: $mediumText;
-    }
-  }
-
-  .main-figure {
-    & > img {
-      max-width: 1456px;
-      width: 100%;
-      height: auto;
-    }
-  }
-
-  .stats {
+  & > .content-size {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 320px;
-    padding: 25px 15px;
-    gap: 15px;
+    justify-content: center;
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+    & > .left-container {
+      & > .hero-CTA {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        max-width: 650px;
+        padding: 30px 15px;
+        gap: 15px;
 
-    & > figure {
-      display: flex;
-      gap: 10px;
+        & > h1 {
+          position: relative;
+          font-size: 2.8rem;
+          line-height: 4rem;
+          font-family: $titleFont;
+          &::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            color: $accent-NeonBlue;
+            text-shadow: $white-NeonEffect;
+          }
+          color: transparent;
+          background: $blue-LinearGradient;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
 
-      & > figcaption {
         & > p {
           font-size: 0.9rem;
           text-transform: capitalize;
+          font-family: $mediumText;
+        }
+      }
+      & > .stats-nd-search {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        & > .stats {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          max-width: 320px;
+          padding: 25px 15px;
+          gap: 15px;
+          & > figure {
+            display: flex;
+            gap: 10px;
 
-          & > .span-cocktail {
-            color: $accent-NeonPink;
-          }
+            & > figcaption {
+              & > p {
+                font-size: 0.9rem;
+                text-transform: capitalize;
 
-          & > .span-ingredients {
-            color: $accent-NeonBlue;
+                & > .span-cocktail {
+                  color: $accent-NeonPink;
+                }
+
+                & > .span-ingredients {
+                  color: $accent-NeonBlue;
+                }
+              }
+            }
           }
         }
       }
     }
+    & > .main-figure {
+      & > img {
+        max-width: 1456px;
+        width: 100%;
+        height: auto;
+      }
+    }
   }
-
-  // @media screen and (min-width: 1020px) {
-  // }
+  @media screen and (min-width: 1020px) {
+    & > .content-size {
+      flex-direction: row;
+      & > .left-container {
+        width: 100%;
+        & > .stats-nd-search {
+          width: 100%;
+          & > .stats {
+            max-width: none;
+            width: 100%;
+            flex-direction: row;
+            justify-content: space-evenly;
+          }
+        }
+      }
+      & > .main-figure {
+        & > img {
+          height: 80vh;
+          width: auto;
+        }
+      }
+    }
+  }
 }
 
 .popular-drinks {
