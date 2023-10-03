@@ -1,76 +1,71 @@
 <template>
-  <main>
-    <section class="hero-main">
-      <div class="hero-CTA">
-        <h1 data-text="Welcome,">Welcome,</h1>
-        <p>
-          Looking for the ultimate buzz? Unveil the glowing recipes that match
-          your vibe by searching below.
-        </p>
-      </div>
-      <figure class="main-figure">
-        <img
-          src="@/assets/media/cropped-hero-main.png"
-          alt="Neon bottles main header"
-        />
-      </figure>
-      <AppSearchbar @search="goToCatalogue" />
-      <div class="stats">
-        <figure>
-          <img
-            src="@/assets/media/icons/cocktail-icon.svg"
-            alt=""
-            class="icons"
-          />
-          <figcaption>
-            <p>Total Drinks: <span class="span-cocktail">636</span></p>
-          </figcaption>
-        </figure>
-        <figure>
-          <img src="@/assets/media/icons/cart.svg" alt="" class="icons" />
-          <figcaption>
-            <p>Total Ingredients: <span class="span-ingredients">489</span></p>
-          </figcaption>
-        </figure>
-      </div>
-    </section>
-    <section class="popular-drinks">
-      <figure class="title-section">
+  <section class="hero-main">
+    <div class="hero-CTA">
+      <h1 data-text="Welcome,">Welcome,</h1>
+      <p>
+        Looking for the ultimate buzz? Unveil the glowing recipes that match
+        your vibe by searching below.
+      </p>
+    </div>
+    <figure class="main-figure">
+      <img
+        src="@/assets/media/cropped-hero-main.png"
+        alt="Neon bottles main header"
+      />
+    </figure>
+    <AppSearchbar @search="goToCatalogue" />
+    <div class="stats">
+      <figure>
         <img
           src="@/assets/media/icons/cocktail-icon.svg"
-          alt="Pink Cocktail Icon"
+          alt=""
+          class="icons"
         />
         <figcaption>
-          <h2>our drinks,</h2>
+          <p>Total Drinks: <span class="span-cocktail">636</span></p>
         </figcaption>
       </figure>
-      <div class="slider-container">
-        <div ref="sliderRef" class="cocktail-container">
-          <CocktailCard
-            v-for="drink in popularDrinks"
-            :key="drink.idDrink"
-            :strDrink="drink.strDrink"
-            :strDrinkThumb="drink.strDrinkThumb"
-            :idDrink="drink.idDrink"
-          />
-        </div>
-        <div class="container-buttons">
-          <button
-            @click="goToPrevCard"
-            class="slider-button slider-button--left"
-          >
-            <img src="@/assets/media/icons/left-arrow.svg" alt="left arrow" />
-          </button>
-          <button
-            @click="goToNextCard"
-            class="slider-button slider-button--right"
-          >
-            <img src="@/assets/media/icons/right-arrow.svg" alt="right arrow" />
-          </button>
-        </div>
+      <figure>
+        <img src="@/assets/media/icons/cart.svg" alt="" class="icons" />
+        <figcaption>
+          <p>Total Ingredients: <span class="span-ingredients">489</span></p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+  <section class="popular-drinks">
+    <figure class="title-section">
+      <img
+        src="@/assets/media/icons/cocktail-icon.svg"
+        alt="Pink Cocktail Icon"
+      />
+      <figcaption>
+        <h2>our drinks,</h2>
+      </figcaption>
+    </figure>
+    <div class="slider-container">
+      <div ref="sliderRef" class="cocktail-container">
+        <CocktailCard
+          v-for="drink in popularDrinks"
+          :key="drink.idDrink"
+          :strDrink="drink.strDrink"
+          :strDrinkThumb="drink.strDrinkThumb"
+          :idDrink="drink.idDrink"
+        />
       </div>
-    </section>
-  </main>
+      <div class="container-buttons">
+        <button @click="goToPrevCard" class="slider-button slider-button--left">
+          <img src="@/assets/media/icons/left-arrow.svg" alt="left arrow" />
+        </button>
+        <button
+          @click="goToNextCard"
+          class="slider-button slider-button--right"
+        >
+          <img src="@/assets/media/icons/right-arrow.svg" alt="right arrow" />
+        </button>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -89,7 +84,7 @@ export default {
     };
   },
   async created() {
-    const fetchPromises = Array.from({ length: 5 }, () => getRandomCocktail());
+    const fetchPromises = Array.from({ length: 7 }, () => getRandomCocktail());
     const dataObjects = await Promise.all(fetchPromises);
     this.popularDrinks = [].concat(...dataObjects.map((obj) => obj.drinks));
   },

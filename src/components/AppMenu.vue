@@ -6,7 +6,7 @@
     @click="handleOverlayClick"
   >
     <div class="title-menu">
-      <h2>Find your cocktail</h2>
+      <h2>AfterGlow</h2>
     </div>
     <nav>
       <li @click="closeMenu">
@@ -108,7 +108,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 150px;
+    flex: 0 0 100px;
     width: 275px;
     border-radius: $radius-5;
     color: $default-White;
@@ -168,5 +168,6 @@ export default {
       filter: drop-shadow(0 0 3.5px $default-White);
     }
   }
+  // @media screen and (min-width: 1020px){}
 }
 </style>

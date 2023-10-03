@@ -38,7 +38,6 @@ export default {
   justify-content: flex-end;
   width: 300px;
   height: 300px;
-  // background-color: red;
 }
 .cocktail-card-effect {
   position: relative;

@@ -46,18 +46,20 @@ export default {
 header {
   z-index: 999;
   position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
   top: 0;
   width: 100vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 150px;
+  height: 100px;
   border-bottom: $neon-bottom-border;
-  border-radius: $radius-5;
+  border-radius: 0px 0px 5px 5px;
   background-color: $primary-Background;
 
   .header-logo {
-    width: 150px;
+    width: 135px;
+    margin-top: 20px;
     filter: drop-shadow(0 0 3.5px $accent-NeonPink);
   }
 
@@ -66,7 +68,7 @@ header {
     margin-left: 25px;
 
     & > img {
-      width: 50px;
+      width: 35px;
     }
     &:hover {
       cursor: pointer;

@@ -18,18 +18,16 @@
       <div class="cocktail-ingredients-container">
         <h2>Ingredients</h2>
         <div class="list-ingredients">
-          <div
+          <figure
             v-for="ingredient in ingredients"
             :key="ingredient.name"
-            class="ingredient-item"
+            class="list-item"
           >
-            <div class="icon">
-              <img src="@/assets/media/icons/moon-stars.svg" />
-            </div>
-            <div class="info">
+            <img src="@/assets/media/icons/moon-stars.svg" />
+            <figcaption class="info">
               <p>{{ ingredient.measure }} {{ ingredient.name }}</p>
-            </div>
-          </div>
+            </figcaption>
+          </figure>
         </div>
       </div>
 
@@ -105,8 +103,8 @@ section {
   justify-content: center;
   align-items: center;
   text-align: center;
-  gap: 20px;
-  padding: 5px 15px;
+  gap: 25px;
+  padding: 20px;
   & > figure {
     & > img {
       border-radius: $radius-15;
@@ -117,10 +115,14 @@ section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: $radius-15;
-    box-shadow: $purple-NeonEffect;
-    padding: 15px;
+    justify-content: center;
     gap: 25px;
+    min-width: 260px;
+    width: 90%;
+    padding: 25px 20px;
+    border-radius: $radius-15;
+    border: 2px solid $primary-DarkPurple;
+    box-shadow: $purple-NeonEffect;
     & > h1 {
       font-size: 2.1rem;
       line-height: 1.75rem;
@@ -131,34 +133,64 @@ section {
       align-items: center;
       justify-content: flex-start;
       overflow-x: scroll;
-      gap: 20px;
-      width: 250px;
+      overflow-y: hidden;
+      gap: 15px;
+      height: 35px;
+      max-width: 90%;
+      width: fit-content;
       padding: 15px;
       border: 1px solid $accent-Purpleish;
       box-shadow: $purpleish-NeonEffect;
       border-radius: $radius-15;
       & > p {
         white-space: nowrap;
-        font-size: 1.2rem;
-        line-height: 1.7rem;
+        font-size: 1.25rem;
         color: $accent-NeonPink;
         text-shadow: $pink-NeonEffect;
       }
+      &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+      }
+      // For Firefox
+      scrollbar-width: none;
+      // For IE
+      -ms-overflow-style: none;
     }
     & > div.cocktail-ingredients-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      max-width: 650px;
+      width: 90%;
+      gap: 15px;
+      padding: 20px;
+      border: 1px solid $accent-NeonBlue;
+      box-shadow: $blue-NeonEffect;
+      border-radius: $radius-15;
       & > h2 {
         font-size: 1.25rem;
         line-height: 1.75rem;
         text-shadow: $white-NeonEffect;
       }
       & > div.list-ingredients {
-        display: grid;
-        grid-template-columns: 40px 1fr;
-        & > div.ingredient-item {
-          display: contents;
-          & > div.icon,
-          & > div.info {
-            padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        gap: 10px;
+        width: 100%;
+        height: fit-content;
+        & > figure.list-item {
+          display: flex;
+          height: 30px;
+          align-items: flex-end;
+          gap: 10px;
+          & > p {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
           }
         }
       }
@@ -167,6 +199,21 @@ section {
       align-self: center;
       white-space: pre-line;
       word-wrap: break-word;
+    }
+  }
+
+  @media screen and (min-width: 1020px) {
+    flex-direction: row-reverse;
+    gap: 35px;
+    padding: 25px 15px;
+    & > div.cocktail-details {
+      justify-content: space-evenly;
+      width: 50%;
+      height: 75dvh;
+      & > div.cocktail-ingredients-container {
+        max-height: 650px;
+        height: 100%;
+      }
     }
   }
 }

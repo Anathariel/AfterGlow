@@ -39,7 +39,7 @@ export default {
 @import "@/assets/scss/_variables.scss";
 .searchbar-wrapper {
   display: inline-block;
-  width: 300px;
+  width: 250px;
   padding: 1px;
   background: $neon-LinearGradient;
   border-radius: $radius-180;
@@ -54,7 +54,7 @@ export default {
     box-sizing: border-box;
     justify-content: flex-start;
     align-items: center;
-    width: 300px;
+    width: 250px;
     padding: 16px;
     gap: 10px;
     border-radius: $radius-180;
@@ -68,5 +68,6 @@ export default {
       outline: transparent;
     }
   }
+  // @media screen and (min-width: 1020px){}
 }
 </style>

@@ -2,7 +2,6 @@
   <section>
     <div class="option-search">
       <!-- Category Links -->
-      <h2>Categories</h2>
       <div class="cocktail-category-container">
         <router-link
           v-for="category in categories"
@@ -12,13 +11,8 @@
           {{ category.strCategory }}
         </router-link>
       </div>
-
       <!-- Search Bar -->
       <AppSearchbar @search="performSearch" />
-      <p class="searchbar-info">
-        Type here to search by the name of a cocktail, by ingredient, or by
-        category!
-      </p>
     </div>
 
     <!-- Search Results or Ingredients List -->
@@ -32,7 +26,15 @@
             :to="`/catalogue?filter=ingredient:${ingredient}`"
             @click="searchByIngredient(ingredient)"
           >
-            {{ ingredient }}
+            <figure class="ingredient-item">
+              <img
+                :src="`https://www.thecocktaildb.com/images/ingredients/${ingredient}-Small.png`"
+                :alt="`${ingredient} image`"
+              />
+              <figcaption>
+                {{ ingredient }}
+              </figcaption>
+            </figure>
           </router-link>
         </div>
       </template>
@@ -60,6 +62,7 @@ import {
   getCategories,
   getIngredientsList,
 } from "@/services/cocktailDb";
+import debounce from "lodash.debounce";
 import CocktailCard from "@/components/CocktailCard.vue";
 import AppSearchbar from "@/components/AppSearchbar.vue";
 
@@ -83,7 +86,7 @@ export default {
     },
   },
   methods: {
-    async performSearch(searchTerm) {
+    performSearch: debounce(async function (searchTerm) {
       this.searchTerm = searchTerm;
       this.loading = true;
 
@@ -120,31 +123,35 @@ export default {
       }
 
       this.loading = false;
-    },
+    }),
+
     async fetchCategories() {
       const data = await getCategories();
       this.categories = data?.drinks || [];
     },
     async searchByIngredient(ingredient) {
-      this.loading = true; // Set loading to true to indicate that a search is in progress
+      if (this.loading) return;
+      this.loading = true;
       try {
         const data = await searchCocktailsByIngredient(ingredient);
         this.cocktails = data?.drinks || [];
       } catch (error) {
         console.error("Error searching cocktails by ingredient:", error);
-        this.cocktails = []; // Handle the error by setting cocktails to an empty array or displaying an error message
+        this.cocktails = [];
       } finally {
-        this.loading = false; // Set loading back to false whether the search succeeded or failed
+        this.loading = false;
       }
     },
   },
   watch: {
     "$route.query.filter": function (newFilter) {
+      if (this.loading) return;
       this.searchTerm = newFilter;
       this.performSearch(newFilter);
     },
   },
   mounted() {
+    if (this.loading) return;
     this.searchTerm = this.$route.query.filter || "";
     this.performSearch(this.searchTerm);
     this.fetchCategories();
@@ -155,65 +162,70 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/_variables.scss";
 section {
-  margin: 25px 0;
+  margin: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
-  gap: 50px;
-}
-div.option-search {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 25px;
-  padding: 25px 50px;
-  border: 1px solid $accent-Purpleish;
-  box-shadow: $purpleish-NeonEffect;
-  border-radius: $radius-15;
-  & > div.cocktail-category-container {
+  gap: 20px;
+  & > div.option-search {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    overflow-x: scroll;
     gap: 20px;
-    width: 250px;
-    padding: 15px;
+    padding: 20px;
     border: 1px solid $accent-Purpleish;
     box-shadow: $purpleish-NeonEffect;
     border-radius: $radius-15;
-    & > a {
-      white-space: nowrap;
-      font-size: 1.2rem;
-      line-height: 1.7rem;
-      color: $accent-NeonPink;
-      text-shadow: $pink-NeonEffect;
-      &:hover {
-        color: $accent-Purpleish;
-        text-shadow: $purpleish-NeonEffect;
+    & > div.cocktail-category-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-x: scroll;
+      gap: 20px;
+      width: 200px;
+      padding: 20px;
+      border: 1px solid $accent-Purpleish;
+      box-shadow: $purpleish-NeonEffect;
+      border-radius: $radius-15;
+      & > a {
+        white-space: nowrap;
+        font-size: 1.2rem;
+        line-height: 1.5rem;
+        color: $accent-NeonPink;
+        text-shadow: $pink-NeonEffect;
+        &:hover {
+          color: $accent-Purpleish;
+          text-shadow: $purpleish-NeonEffect;
+        }
       }
     }
   }
-}
-div.search-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-
-  & > .ingredient-list {
+  & > div.search-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 25px;
-  }
-}
 
-p.searchbar-info {
-  font-size: 0.75rem;
-  line-height: 1.1rem;
-  width: 300px;
-  text-align: center;
+    & > .ingredient-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+    & > figure.ingredient-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      & > figcaption {
+        width: 80%;
+        text-align: center;
+        word-break: break-word;
+      }
+    }
+  }
+  // @media screen and (min-width: 1020px){}
 }
 </style>
