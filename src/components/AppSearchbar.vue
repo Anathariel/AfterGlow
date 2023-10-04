@@ -40,7 +40,7 @@ export default {
 .searchbar-wrapper {
   display: inline-block;
   min-width: 250px;
-  width: 60%;
+  width: 100%;
   padding: 1px;
   background: $neon-LinearGradient;
   border-radius: $radius-180;

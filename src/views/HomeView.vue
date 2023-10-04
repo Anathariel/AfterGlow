@@ -51,22 +51,29 @@
         <h2>our drinks,</h2>
       </figcaption>
     </figure>
-    <div class="slider-container">
-      <div ref="sliderRef" class="cocktail-container">
-        <CocktailCard
-          v-for="drink in popularDrinks"
-          :key="drink.idDrink"
-          :strDrink="drink.strDrink"
-          :strDrinkThumb="drink.strDrinkThumb"
-          :idDrink="drink.idDrink"
-        />
+    <div class="slider-wrapper">
+      <div class="slider-container">
+        <div ref="sliderRef" class="cocktail-container">
+          <CocktailCard
+            v-for="drink in popularDrinks"
+            :key="drink.idDrink"
+            :strDrink="drink.strDrink"
+            :strDrinkThumb="drink.strDrinkThumb"
+            :idDrink="drink.idDrink"
+          />
+        </div>
       </div>
       <div class="container-buttons">
-        <button @click="goToPrevCard" class="slider-button slider-button--left">
+        <button
+          @click="goToPrevCard"
+          :class="{ 'grey-out': leftButtonGreyedOut === true }"
+          class="slider-button slider-button--left"
+        >
           <img src="@/assets/media/icons/left-arrow.svg" alt="left arrow" />
         </button>
         <button
           @click="goToNextCard"
+          :class="{ 'grey-out': rightButtonGreyedOut === true }"
           class="slider-button slider-button--right"
         >
           <img src="@/assets/media/icons/right-arrow.svg" alt="right arrow" />
@@ -89,18 +96,67 @@ export default {
   data() {
     return {
       popularDrinks: [],
+      scrollPosition: null,
+      maxScrollPosition: null,
+      leftButtonGreyedOut: false,
+      rightButtonGreyedOut: false,
+      cardWidth: 300,
     };
+  },
+  mounted() {
+    this.updateScrollPosition();
+    this.$refs.sliderRef.addEventListener("scroll", this.updateScrollPosition);
   },
   async created() {
     const fetchPromises = Array.from({ length: 7 }, () => getRandomCocktail());
     const dataObjects = await Promise.all(fetchPromises);
     this.popularDrinks = [].concat(...dataObjects.map((obj) => obj.drinks));
+    this.$nextTick(() => {
+      this.updateScrollPosition(); // Update scroll state after data has been loaded
+    });
   },
   methods: {
     goToCatalogue(searchTerm) {
       this.$router.push({
         name: "CatalogueView",
         query: { filter: searchTerm },
+      });
+    },
+    goToPrevCard() {
+      const slider = this.$refs.sliderRef;
+      let newScrollPosition = slider.scrollLeft - this.cardWidth;
+      if (newScrollPosition < 0) {
+        newScrollPosition = 0;
+      }
+      slider.scrollTo({
+        left: newScrollPosition,
+        behavior: "smooth",
+      });
+    },
+    goToNextCard() {
+      const slider = this.$refs.sliderRef;
+      let newScrollPosition = slider.scrollLeft + this.cardWidth;
+
+      if (newScrollPosition >= slider.scrollWidth - slider.clientWidth) {
+        newScrollPosition = slider.scrollWidth - slider.clientWidth;
+      }
+
+      slider.scrollTo({
+        left: newScrollPosition,
+        behavior: "smooth",
+      });
+
+      this.scrollPosition = newScrollPosition;
+    },
+    updateScrollPosition() {
+      const slider = this.$refs.sliderRef;
+      this.scrollPosition = slider.scrollLeft;
+      this.maxScrollPosition = slider.scrollWidth - slider.clientWidth;
+
+      this.$nextTick(() => {
+        this.leftButtonGreyedOut = this.scrollPosition === 0;
+        this.rightButtonGreyedOut =
+          this.scrollPosition >= this.maxScrollPosition;
       });
     },
   },
@@ -111,7 +167,6 @@ export default {
 @import "@/assets/scss/_variables.scss";
 .hero-main {
   position: relative;
-
   &:after {
     content: "";
     position: absolute;
@@ -174,12 +229,13 @@ export default {
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        max-width: 300px;
+        margin: 0 auto;
         & > .stats {
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          max-width: 320px;
           padding: 25px 15px;
           gap: 15px;
           & > figure {
@@ -216,9 +272,14 @@ export default {
     & > .content-size {
       flex-direction: row;
       & > .left-container {
+        max-width: 600px;
         width: 100%;
+        & > .hero-CTA {
+          max-width: 450px;
+        }
         & > .stats-nd-search {
           width: 100%;
+          max-width: none;
           & > .stats {
             max-width: none;
             width: 100%;
@@ -280,27 +341,36 @@ export default {
     }
   }
 
-  & > .slider-container {
+  & > .slider-wrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    overflow: hidden;
-    max-width: 650px;
     width: 100%;
-    & > .cocktail-container {
+    & > .slider-container {
       display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
+      flex-direction: column;
       align-items: center;
-      max-width: 650px;
+      overflow: hidden;
+      max-width: 1000px;
       width: 100%;
-      height: auto;
-      overflow-x: auto;
-      position: relative;
-      &::before,
-      &::after {
-        content: "";
-        flex: 1;
+      & > .cocktail-container {
+        position: relative;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        max-width: 1000px;
+        width: 100%;
+        height: auto;
+        transition: all 0.5s ease-in-out;
+        &::before,
+        &::after {
+          content: "";
+          flex: 1;
+        }
       }
     }
     & > .container-buttons {
@@ -310,6 +380,45 @@ export default {
       width: 100%;
       & > button > img {
         width: 50px;
+      }
+      .grey-out img {
+        filter: invert(47%) sepia(43%) saturate(2%) hue-rotate(314deg)
+          brightness(98%) contrast(85%);
+        opacity: 0.5;
+      }
+    }
+  }
+
+  @media screen and (min-width: 1020px) {
+    .slider-wrapper {
+      width: 60%;
+      margin: 0 auto;
+      & > .container-buttons {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: -20px;
+        right: -20px;
+        width: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        & > button {
+          & > img {
+            width: 100px;
+            filter: invert(26%) sepia(95%) saturate(7063%) hue-rotate(255deg)
+              brightness(83%) contrast(90%)
+              drop-shadow(0 0 5px $primary-NeonPurple);
+            &:hover {
+              filter: invert(26%) sepia(95%) saturate(7063%) hue-rotate(255deg)
+                brightness(83%) contrast(90%)
+                drop-shadow(0 0 10px $default-grey);
+            }
+          }
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
       }
     }
   }
