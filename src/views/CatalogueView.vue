@@ -2,14 +2,22 @@
   <section>
     <div class="option-search">
       <!-- Category Links -->
-      <div class="cocktail-category-container">
-        <router-link
-          v-for="category in categories"
-          :key="category.strCategory"
-          :to="`/catalogue?filter=category:${category.strCategory}`"
-        >
-          {{ category.strCategory }}
-        </router-link>
+      <div
+        class="carousel-container"
+        @mousedown="startDrag"
+        @mousemove="drag"
+        @mouseup="endDrag"
+        @mouseleave="endDrag"
+      >
+        <div class="cocktail-category-container" ref="categoryContainer">
+          <router-link
+            v-for="category in categories"
+            :key="category.strCategory"
+            :to="`/catalogue?filter=category:${category.strCategory}`"
+          >
+            {{ category.strCategory }}
+          </router-link>
+        </div>
       </div>
       <!-- Search Bar -->
       <AppSearchbar @search="performSearch" />
@@ -78,6 +86,10 @@ export default {
       loading: false,
       searchTerm: "",
       ingredients: [],
+      isDragging: false,
+      startX: 0,
+      currentX: 0,
+      scrollLeft: 0,
     };
   },
   computed: {
@@ -124,7 +136,21 @@ export default {
 
       this.loading = false;
     }),
+    startDrag(e) {
+      this.isDragging = true;
+      this.startX = e.clientX;
+      this.scrollLeft = this.$refs.categoryContainer.scrollLeft;
+    },
 
+    drag(e) {
+      if (!this.isDragging) return;
+      const x = e.clientX - this.startX;
+      this.$refs.categoryContainer.scrollLeft = this.scrollLeft - x;
+    },
+
+    endDrag() {
+      this.isDragging = false;
+    },
     async fetchCategories() {
       const data = await getCategories();
       this.categories = data?.drinks || [];
@@ -178,26 +204,35 @@ section {
     border: 1px solid $accent-Purpleish;
     box-shadow: $purpleish-NeonEffect;
     border-radius: $radius-15;
-    & > div.cocktail-category-container {
+    & > .carousel-container {
       display: flex;
+      justify-content: center;
       align-items: center;
-      justify-content: flex-start;
-      overflow-x: scroll;
-      gap: 20px;
-      width: 200px;
-      padding: 20px;
-      border: 1px solid $accent-Purpleish;
-      box-shadow: $purpleish-NeonEffect;
-      border-radius: $radius-15;
-      & > a {
+      width: 90%;
+      cursor: grab;
+      user-select: none;
+      & > div.cocktail-category-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        overflow-x: hidden;
+        gap: 20px;
+        width: 200px;
+        padding: 20px;
+        border: 1px solid $accent-Purpleish;
+        box-shadow: $purpleish-NeonEffect;
+        border-radius: $radius-15;
         white-space: nowrap;
-        font-size: 1.2rem;
-        line-height: 1.5rem;
-        color: $accent-NeonPink;
-        text-shadow: $pink-NeonEffect;
-        &:hover {
-          color: $accent-Purpleish;
-          text-shadow: $purpleish-NeonEffect;
+        & > a {
+          white-space: nowrap;
+          font-size: 1.2rem;
+          line-height: 1.5rem;
+          color: $accent-NeonPink;
+          text-shadow: $pink-NeonEffect;
+          &:hover {
+            color: $accent-Purpleish;
+            text-shadow: $purpleish-NeonEffect;
+          }
         }
       }
     }
@@ -230,7 +265,7 @@ section {
   @media screen and (min-width: 1020px) {
     & > div.option-search {
       width: 50%;
-      & > div.cocktail-category-container {
+      & > .carousel-container > div.cocktail-category-container {
         width: 80%;
       }
     }
