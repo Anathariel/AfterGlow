@@ -209,7 +209,6 @@ section {
     & > div.cocktail-details {
       justify-content: space-evenly;
       width: 50%;
-      height: 75dvh;
       & > div.cocktail-ingredients-container {
         max-height: 650px;
         height: 100%;

@@ -17,6 +17,7 @@
             v-for="category in categories"
             :key="category.strCategory"
             :to="`/catalogue?filter=category:${category.strCategory}`"
+            :class="{ active: isActiveCategory(category.strCategory) }"
           >
             {{ category.strCategory }}
           </router-link>
@@ -29,10 +30,9 @@
     <!-- Search Results or Ingredients List -->
     <div class="search-container">
       <template v-if="isIngredientsQuery">
-        <h2>Ingredients</h2>
         <div class="ingredient-list">
           <router-link
-            v-for="ingredient in ingredients"
+            v-for="ingredient in paginatedItems"
             :key="ingredient"
             :to="`/catalogue?filter=ingredient:${ingredient}`"
             @click="searchByIngredient(ingredient)"
@@ -51,7 +51,7 @@
       </template>
       <template v-else>
         <CocktailCard
-          v-for="cocktail in paginatedCocktails"
+          v-for="cocktail in paginatedItems"
           :key="cocktail.idDrink"
           :strDrink="cocktail.strDrink"
           :strDrinkThumb="cocktail.strDrinkThumb"
@@ -119,13 +119,34 @@ export default {
     isIngredientsQuery() {
       return this.$route.query.filter === "ingredient";
     },
-    paginatedCocktails() {
+    paginatedItems() {
+      let currentList = [];
+      if (this.isIngredientsQuery) {
+        currentList = this.ingredients;
+      } else {
+        currentList = this.cocktails;
+      }
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
-      return this.cocktails.slice(start, end);
+      return currentList.slice(start, end);
     },
     maxPages() {
-      return Math.ceil(this.cocktails.length / this.itemsPerPage);
+      let currentList = [];
+      if (this.isIngredientsQuery) {
+        currentList = this.ingredients;
+      } else {
+        currentList = this.cocktails;
+      }
+      return Math.ceil(currentList.length / this.itemsPerPage);
+    },
+    activeCategory() {
+      if (this.$route.query.filter) {
+        const filterValue = this.$route.query.filter.split(":");
+        if (filterValue[0] === "category") {
+          return filterValue[1];
+        }
+      }
+      return null;
     },
   },
   methods: {
@@ -221,6 +242,9 @@ export default {
     goToPage(page) {
       this.currentPage = page;
     },
+    isActiveCategory(category) {
+      return this.activeCategory === category;
+    },
   },
   watch: {
     "$route.query.filter": function (newFilter) {
@@ -289,7 +313,8 @@ section {
           line-height: 1.5rem;
           color: $accent-NeonPink;
           text-shadow: $pink-NeonEffect;
-          &:hover {
+          &:hover,
+          &.active {
             color: $accent-Purpleish;
             text-shadow: $purpleish-NeonEffect;
           }
@@ -315,6 +340,7 @@ section {
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      border: 1px solid white;
       & > figcaption {
         width: 80%;
         text-align: center;
@@ -358,6 +384,13 @@ section {
       width: 50%;
       & > .carousel-container > div.cocktail-category-container {
         width: 80%;
+      }
+    }
+    & > div.search-container {
+      gap: 35px;
+      & > .ingredient-list {
+        max-width: 1100px;
+        width: 100%;
       }
     }
   }
