@@ -48,13 +48,32 @@
       </template>
       <template v-else>
         <CocktailCard
-          v-for="cocktail in cocktails"
+          v-for="cocktail in paginatedCocktails"
           :key="cocktail.idDrink"
           :strDrink="cocktail.strDrink"
           :strDrinkThumb="cocktail.strDrinkThumb"
           :idDrink="cocktail.idDrink"
         />
       </template>
+    </div>
+    <div class="pagination-controls">
+      <button @click="prevPage" :disabled="currentPage === 1">Previous</button>
+      <div class="pages-container">
+        <button
+          v-for="page in maxPages"
+          :key="page"
+          :class="{
+            'hover-style': currentPage === page,
+            active: currentPage === page,
+          }"
+          @click="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+      </div>
+      <button @click="nextPage" :disabled="currentPage >= maxPages">
+        Next
+      </button>
     </div>
   </section>
 </template>
@@ -88,13 +107,22 @@ export default {
       ingredients: [],
       isDragging: false,
       startX: 0,
-      currentX: 0,
       scrollLeft: 0,
+      currentPage: 1,
+      itemsPerPage: 20,
     };
   },
   computed: {
     isIngredientsQuery() {
       return this.$route.query.filter === "ingredient";
+    },
+    paginatedCocktails() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.cocktails.slice(start, end);
+    },
+    maxPages() {
+      return Math.ceil(this.cocktails.length / this.itemsPerPage);
     },
   },
   methods: {
@@ -168,12 +196,31 @@ export default {
         this.loading = false;
       }
     },
+    nextPage() {
+      if (this.currentPage < this.maxPages) {
+        this.currentPage += 1;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage -= 1;
+      }
+    },
+    goToPage(page) {
+      this.currentPage = page;
+    },
   },
   watch: {
     "$route.query.filter": function (newFilter) {
       if (this.loading) return;
       this.searchTerm = newFilter;
       this.performSearch(newFilter);
+      this.currentPage = 1;
+    },
+    searchTerm: function (newTerm, oldTerm) {
+      if (newTerm !== oldTerm) {
+        this.currentPage = 1;
+      }
     },
   },
   mounted() {
@@ -193,6 +240,7 @@ section {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   gap: 20px;
   & > div.option-search {
     display: flex;
@@ -260,6 +308,37 @@ section {
         text-align: center;
         word-break: break-word;
       }
+    }
+  }
+  & > div.pagination-controls {
+    display: flex;
+    justify-content: space-evenly;
+    width: 90%;
+    & > div.pages-container {
+      justify-self: center;
+      width: 100%;
+      & > button {
+        margin: 10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        font-family: $bolderText;
+        color: $default-White;
+        border: 1px solid $primary-NeonPurple;
+        box-shadow: $purple-NeonEffect;
+        &.hover-style,
+        &:hover {
+          background-color: $primary-NeonPurple;
+          color: $default-White;
+        }
+      }
+    }
+    & > button {
+      color: $default-White;
+      &:disabled {
+        color: $default-Darkgrey;
+      }
+      font-family: $semiBoldText;
     }
   }
   @media screen and (min-width: 1020px) {

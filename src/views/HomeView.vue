@@ -299,6 +299,7 @@ export default {
 }
 
 .popular-drinks {
+  width: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -380,6 +381,8 @@ export default {
       width: 100%;
       & > button > img {
         width: 50px;
+        filter: invert(26%) sepia(95%) saturate(7063%) hue-rotate(255deg)
+          brightness(83%) contrast(90%) drop-shadow(0 0 5px $primary-NeonPurple);
       }
       .grey-out img {
         filter: invert(47%) sepia(43%) saturate(2%) hue-rotate(314deg)
