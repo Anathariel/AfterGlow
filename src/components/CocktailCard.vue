@@ -57,6 +57,7 @@ export default {
   }
 }
 .cocktail-card {
+  z-index: 10;
   position: relative;
   overflow: hidden;
   width: 250px;
