@@ -8,6 +8,9 @@
         @mousemove="drag"
         @mouseup="endDrag"
         @mouseleave="endDrag"
+        @touchstart="startDrag"
+        @touchmove="drag"
+        @touchend="endDrag"
       >
         <div class="cocktail-category-container" ref="categoryContainer">
           <router-link
@@ -166,18 +169,24 @@ export default {
     }),
     startDrag(e) {
       this.isDragging = true;
-      this.startX = e.clientX;
+
+      // Determine if it is a mouse event or touch event
+      const eventClientX =
+        e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+
+      this.startX = eventClientX;
       this.scrollLeft = this.$refs.categoryContainer.scrollLeft;
     },
 
     drag(e) {
       if (!this.isDragging) return;
-      const x = e.clientX - this.startX;
-      this.$refs.categoryContainer.scrollLeft = this.scrollLeft - x;
-    },
 
-    endDrag() {
-      this.isDragging = false;
+      // Determine if it is a mouse event or touch event
+      const eventClientX =
+        e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+
+      const x = eventClientX - this.startX;
+      this.$refs.categoryContainer.scrollLeft = this.scrollLeft - x;
     },
     async fetchCategories() {
       const data = await getCategories();

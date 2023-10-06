@@ -53,7 +53,12 @@
     </figure>
     <div class="slider-wrapper">
       <div class="slider-container">
-        <div ref="sliderRef" class="cocktail-container">
+        <div
+          ref="sliderRef"
+          class="cocktail-container"
+          @touchstart="handleTouchStart"
+          @touchmove="handleTouchMove"
+        >
           <CocktailCard
             v-for="drink in popularDrinks"
             :key="drink.idDrink"
@@ -101,6 +106,8 @@ export default {
       leftButtonGreyedOut: false,
       rightButtonGreyedOut: false,
       cardWidth: 300,
+      startX: null,
+      threshold: 100,
     };
   },
   mounted() {
@@ -158,6 +165,22 @@ export default {
         this.rightButtonGreyedOut =
           this.scrollPosition >= this.maxScrollPosition;
       });
+    },
+    handleTouchStart(e) {
+      this.startX = e.touches[0].clientX;
+    },
+    handleTouchMove(e) {
+      const touchX = e.touches[0].clientX;
+      const distanceX = this.startX - touchX;
+
+      if (Math.abs(distanceX) > this.threshold) {
+        if (distanceX > 0) {
+          this.goToNextCard();
+        } else {
+          this.goToPrevCard();
+        }
+        this.startX = null;
+      }
     },
   },
 };
