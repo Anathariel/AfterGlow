@@ -188,6 +188,9 @@ export default {
       const x = eventClientX - this.startX;
       this.$refs.categoryContainer.scrollLeft = this.scrollLeft - x;
     },
+    endDrag() {
+      this.isDragging = false;
+    },
     async fetchCategories() {
       const data = await getCategories();
       this.categories = data?.drinks || [];
